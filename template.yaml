@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-app
+
+  Sample SAM Template for sam-app
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Parameters:
+    TwilioAccountSid:
+        Type: String
+    TwilioAccountAccess:
+        Type: String
+    TwilioAccessKey:
+        Type: String
+    TwilioPhoneNumber:
+        Type: String
+
+Resources:
+  HandleTwilioFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: twilio_app.app.lambda_handler
+      Runtime: python3.7
+      Environment:
+        Variables:
+          AccountSid:
+            Ref: TwilioAccountSid
+          AccountAccess:
+            Ref: TwilioAccountAccess
+          AccountSecret:
+            Ref  TwilioAccessKey
+          PhoneNumber:
+            Ref: TwilioPhoneNumber
+      Events:
+        HelloGet:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: get
+        HelloPost:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: post
+
+Outputs:
+  TwilioResponderApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  TwilioFunction:
+    Description: "Twilio Handler Lambda Function ARN"
+    Value: !GetAtt HandleTwilioFunction.Arn
+  TwilioFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt HandleTwilioFunctionRole.Arn
