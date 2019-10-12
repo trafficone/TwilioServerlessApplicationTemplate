@@ -45,7 +45,6 @@ You will need an account on both [AWS](https://aws.amazon.com/) and
 number](https://www.twilio.com/docs/voice/quickstart/python#sign-up-for-twilio-and-get-a-phone-number). 
 
 You will need to install the following:
-* Python 3.7 
 * git
 * [AWS SAM
   CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
@@ -62,6 +61,12 @@ export TWILIO_API_KEY=**APIKey**
 export TWILIO_API_SECRET=**APISecret**
 ```
 
+Set environment variables for building and deploying via SAM
+```
+export REGION=us-west-2 #Set to any region
+export BUCKET=sam-package-$$ #S3 Bucket name where packaged applications are stored
+```
+
 Use git to get the latest version of the repository.
 ```
 git clone git@github.com:trafficone/TwilioServerlessApplicationTemplate.git
@@ -72,18 +77,18 @@ cd TwilioServerlessApplicationTemplate
 Use AWS CLI and AWS SAM CLI to build and package the default application
 ```
 #create a bucket to package your application to
-aws s3 mb s3://**bucketname** --region **region** # Example regions: us-west-2, ap-northeast-1
+aws s3 mb s3://$BUCKET --region $REGION
 
 #build the application
 sam build
 
 #package the application
-sam package --output-template packaged.yaml --s3-bucket **bucketname**
+sam package --output-template packaged.yaml --s3-bucket $BUCKET
 ```
 
 Using the environment variables, deploy the application to AWS with your Twilio settings.
 ```
-sam deploy --region **region** \
+sam deploy --region $REGION \
     --template-file packaged.yaml \
     --capabilities CAPABILITY_IAM \
     --stack-name TwilioServerlessExample
@@ -92,7 +97,7 @@ sam deploy --region **region** \
                           TwilioAccessKey=$TWILIO_API_SECRET \
                           TwilioPhoneNumber=TWILIO_PHONE_NUMBER
 #get the endpoint URL
-aws cloudformation describe-stacks ---region **region** \
+aws cloudformation describe-stacks ---region $REGION\
     --stack-name TwilioServerlessExample 
     --query "Stacks[0].Outputs[1].OutputValue"
 ```
