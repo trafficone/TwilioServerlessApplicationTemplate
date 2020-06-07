@@ -95,7 +95,7 @@ sam deploy --region $REGION \
     --parameter-overrides TwilioAccountSid=$TWILIO_SID \
                           TwilioAccountAccess=$TWILIO_API_KEY \
                           TwilioAccessKey=$TWILIO_API_SECRET \
-                          TwilioPhoneNumber=TWILIO_PHONE_NUMBER
+                          TwilioPhoneNumber=$TWILIO_PHONE_NUMBER
 #get the endpoint URL
 aws cloudformation describe-stacks ---region $REGION\
     --stack-name TwilioServerlessExample 
