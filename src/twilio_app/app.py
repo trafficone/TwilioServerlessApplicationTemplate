@@ -83,7 +83,7 @@ def params_from_headers(headers,body):
     if cf not in headers:
         cf = cf.lower()
         if cf not in headers:
-            logger.error("Invalid Event: Paylad has not Content-Type header")
+            logger.error("Invalid Event: Payload has no Content-Type header")
             raise Exception("Content-Type not found")
     if headers[cf].startswith("application/x-www-form-urlencoded"):
         parameters = parse_qs(body)
