@@ -34,7 +34,7 @@ Resources:
           AccountAccess:
             Ref: TwilioAccountAccess
           AccountSecret:
-            Ref  TwilioAccessKey
+            Ref: TwilioAccessKey
           PhoneNumber:
             Ref: TwilioPhoneNumber
       Events:
