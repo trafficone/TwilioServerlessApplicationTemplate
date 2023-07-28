@@ -1,4 +1,8 @@
 # TwilioServerlessApplicationTemplate
+
+> Archive Note:  
+> Twilio now supports serverless functions for free on their platform. This project is redundant.
+
 A template to interact with Twilio using AWS SAM. Deploy your Twilio app in a serverless architecture with ease!
 
 ## Premise
